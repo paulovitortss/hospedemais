@@ -116,7 +116,7 @@
       </section>
 
       <div class="band" aria-hidden="true">
-        <div class="band__track">${bandItems}${bandItems}</div>
+        <div class="band__track">${bandItems.repeat(4)}</div>
       </div>
 
       <section class="section container" aria-labelledby="quick-title">
