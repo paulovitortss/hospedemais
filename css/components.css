@@ -193,8 +193,7 @@
 .band__track {
   display: flex;
   width: max-content;
-  animation: marquee 60s linear infinite;
-  will-change: transform;
+  will-change: transform; /* movimento controlado em js/app.js (startMarquee) */
 }
 .band__item {
   display: inline-flex;
@@ -208,10 +207,6 @@
   white-space: nowrap;
 }
 .band__item svg { width: 10px; height: 10px; }
-@keyframes marquee {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
-}
 
 /* ---------- Acesso rápido ---------- */
 

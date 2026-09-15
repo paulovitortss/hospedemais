@@ -320,7 +320,5 @@ input, textarea { font: inherit; color: inherit; }
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
-  /* animações contínuas (faixa) ficam paradas em vez de acelerar */
-  .band__track { animation: none !important; }
   html { scroll-behavior: auto; }
 }

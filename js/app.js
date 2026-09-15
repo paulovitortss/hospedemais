@@ -284,6 +284,7 @@
     void view.offsetWidth; // reinicia a animação
     view.classList.add('is-entering');
     bindWifi(view);
+    startMarquee();
 
     document.querySelectorAll('[data-dock]').forEach((a) => {
       const active = a.dataset.dock === dock;
@@ -298,6 +299,33 @@
   }
 
   /* ---------- Topbar sólida ao rolar ---------- */
+  /* ---------- Faixa dourada ----------
+     Movida por requestAnimationFrame com velocidade fixa em px/s,
+     para não depender de duração de animação CSS (que alguns
+     celulares encurtam no modo "reduzir movimento"). */
+  const MARQUEE_SPEED = 24; // px por segundo
+  let marqueeRaf = 0;
+
+  function startMarquee() {
+    cancelAnimationFrame(marqueeRaf);
+    const track = view.querySelector('.band__track');
+    if (!track || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let x = 0;
+    let last = performance.now();
+    const step = (now) => {
+      if (!track.isConnected) return;
+      const dt = Math.min(now - last, 64) / 1000; // evita saltos ao voltar para a aba
+      last = now;
+      const half = track.scrollWidth / 2;
+      x -= MARQUEE_SPEED * dt;
+      if (half > 0 && -x >= half) x += half;
+      track.style.transform = `translate3d(${x.toFixed(2)}px, 0, 0)`;
+      marqueeRaf = requestAnimationFrame(step);
+    };
+    marqueeRaf = requestAnimationFrame(step);
+  }
+
   function onScroll() {
     topbar.classList.toggle('is-solid', window.scrollY > 8);
   }
