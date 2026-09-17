@@ -9,15 +9,15 @@
 window.HOTEL = {
   nome: 'Teresina Hotel',
   cidade: 'Teresina · PI',
-  endereco: 'Av. Frei Serafim, 1000 — Centro, Teresina · PI',
+  endereco: 'Av. Centenário, 1734 - Aeroporto, Teresina - PI, 64003-700',
   whatsappRecepcao: '558632141504',
   telefoneRecepcao: '+558632141504',
   telefoneExibicao: '(86) 3214-1504',
   ramalRecepcao: '9',
-  wifi: { rede: 'TeresinaHotel_Hospedes', senha: 'bemvindo2026' },
+  wifi: { rede: 'teresinahotel', senha: 'cidadeverde' },
+  toalhasPorHospede: 2,
   horarios: {
-    cafe: '06h30 – 10h00',
-    cafeFds: '07h00 – 10h30',
+    cafe: '07h00 – 09h30',
     cafeLocal: 'Restaurante Parnaíba · Térreo',
     checkin: '14h00',
     checkout: '12h00',
@@ -99,7 +99,7 @@ window.CATEGORIES = [
         id: 'transfer', nome: 'Transfer Aeroporto', icon: 'plane',
         lead: 'Traslado ao Aeroporto de Teresina com horário marcado.',
         lugares: [
-          p('Transfer Senador', 'Busca no aeroporto com placa de identificação e acompanhamento do voo.', 'Aeroporto', '6 km', 'A partir de R$ 45', 'Agendamento 24h', '5586900000601', 'transfersenador', 'Recomendado'),
+          p('Transfer Senador', 'Busca no aeroporto com placa de identificação e acompanhamento do voo.', 'Aeroporto', '1,5 km', 'A partir de R$ 45', 'Agendamento 24h', '5586900000601', 'transfersenador', 'Recomendado'),
           p('Executivo Piauí', 'Sedans e vans executivas para grupos e eventos.', 'Centro', '—', 'Sob consulta', '05h – 23h', '5586900000602', 'executivopiaui')
         ]
       },
@@ -108,7 +108,7 @@ window.CATEGORIES = [
         lead: 'Retire o carro no hotel e explore a região.',
         lugares: [
           p('Rota 86 Locadora', 'Entrega e retirada do veículo no hotel, sem custo adicional.', 'Entrega no hotel', '—', 'A partir de R$ 120/dia', '07h – 20h', '5586900000701', 'rota86locadora', 'Entrega no hotel'),
-          p('Parnaíba Rent a Car', 'Carros compactos, SUVs e opções para viagens ao litoral.', 'Aeroporto', '6 km', 'A partir de R$ 140/dia', '06h – 22h', '5586900000702', 'parnaibarentacar')
+          p('Parnaíba Rent a Car', 'Carros compactos, SUVs e opções para viagens ao litoral.', 'Aeroporto', '1,5 km', 'A partir de R$ 140/dia', '06h – 22h', '5586900000702', 'parnaibarentacar')
         ]
       },
       {

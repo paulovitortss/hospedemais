@@ -134,37 +134,85 @@
   const chipValue = (root, name) =>
     root.querySelector(`[data-chips="${name}"] [aria-pressed="true"]`)?.dataset.value || '';
 
+  const markInvalid = (input, msg) => {
+    input.focus();
+    input.classList.add('is-invalid');
+    input.addEventListener('input', () => input.classList.remove('is-invalid'), { once: true });
+    toast(msg);
+  };
+
+  /* Stepper numérico: max pode ser função (limite dinâmico) */
+  const stepperField = (name, label, value, hint = '') => `
+    <div class="field">
+      <span class="field__label">${label}</span>
+      <div class="stepper" data-stepper="${name}">
+        <button type="button" data-step="-1" aria-label="Diminuir ${label.toLowerCase()}">−</button>
+        <output name="${name}" aria-live="polite">${value}</output>
+        <button type="button" data-step="1" aria-label="Aumentar ${label.toLowerCase()}">+</button>
+      </div>
+      ${hint ? `<span class="field__hint" data-hint-for="${name}">${hint}</span>` : ''}
+    </div>`;
+
+  function bindStepper(root, name, { min = 1, max, onChange }) {
+    const box = root.querySelector(`[data-stepper="${name}"]`);
+    const out = box.querySelector('output');
+    const [minus, plus] = box.querySelectorAll('[data-step]');
+    const limit = () => (typeof max === 'function' ? max() : max);
+    const set = (v, notify = true) => {
+      out.textContent = Math.max(min, Math.min(limit(), v));
+      minus.disabled = +out.textContent <= min;
+      plus.disabled = +out.textContent >= limit();
+      if (notify && onChange) onChange(+out.textContent);
+    };
+    box.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-step]');
+      if (b) set(+out.textContent + +b.dataset.step);
+    });
+    set(+out.textContent, false);
+    return { get: () => +out.textContent, refresh: () => set(+out.textContent, false) };
+  }
+
   /* Formulário genérico que termina em mensagem no WhatsApp da recepção */
-  function requestSheet({ ic, titulo, texto, campos, mensagem, sucesso }) {
+  function requestSheet({ ic, titulo, texto, antes, campos, mensagem, validar, aoEnviar, sucesso, botao, onMount }) {
     sheet.open(`
       ${head(ic, titulo, texto)}
+      ${antes || ''}
       <form class="request" novalidate>
         ${roomField()}
         ${campos || ''}
-        ${waSubmit()}
+        ${waSubmit(botao)}
       </form>`, (root) => {
       bindChips(root);
       const form = root.querySelector('form');
+      if (onMount) onMount(root, form);
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const quarto = form.quarto.value.trim();
-        if (!quarto) {
-          form.quarto.focus();
-          form.quarto.style.borderColor = '#E07A5F';
-          toast('Informe o número do quarto');
-          return;
-        }
+        if (!quarto) return markInvalid(form.quarto, 'Informe o número do quarto');
+        if (validar && validar(root, form) === false) return;
         store.set('th_quarto', quarto);
         const obs = form.obs?.value.trim();
-        let msg = `Olá! Sou hóspede do ${H.nome}, quarto ${quarto}. ${mensagem(root)}`;
+        let msg = `Olá! Sou hóspede do ${H.nome}, quarto ${quarto}. ${mensagem(root, form)}`;
         if (obs) msg += `\nObservação: ${obs}`;
         window.open(waLink(H.whatsappRecepcao, msg), '_blank', 'noopener');
+        if (aoEnviar) aoEnviar(root, form, quarto);
         sheet.close();
         toast(sucesso || 'Solicitação enviada à recepção');
         document.dispatchEvent(new CustomEvent('room:updated'));
       });
     });
   }
+
+  /* Controle local de toalhas pedidas hoje (por quarto) */
+  const hoje = () => new Date().toLocaleDateString('sv-SE'); // AAAA-MM-DD
+  const toalhasHoje = (quarto) => {
+    try {
+      const d = JSON.parse(store.get('th_toalhas', '{}'));
+      return d.data === hoje() && d.quarto === quarto ? d.qtd : 0;
+    } catch { return 0; }
+  };
+  const registrarToalhas = (quarto, qtd) =>
+    store.set('th_toalhas', JSON.stringify({ data: hoje(), quarto, qtd: toalhasHoje(quarto) + qtd }));
 
   /* ---------- Ações ---------- */
   const actions = {
@@ -193,36 +241,121 @@
       });
     },
 
+    /* Limite: H.toalhasPorHospede × hóspedes no quarto, descontando o que já foi pedido hoje */
     toalhas() {
+      const porHospede = H.toalhasPorHospede;
+      let hospedes, qtd;
+
       requestSheet({
         ic: 'towel',
         titulo: 'Solicitar toalhas',
-        texto: 'Levamos toalhas limpas até o seu quarto.',
+        texto: `Levamos toalhas limpas até o seu quarto. Limite de ${porHospede} toalhas por hóspede.`,
         campos: `
-          <div class="field">
-            <span class="field__label">Quantidade</span>
-            <div class="stepper">
-              <button type="button" data-step="-1" aria-label="Diminuir">−</button>
-              <output name="qtd" aria-live="polite">2</output>
-              <button type="button" data-step="1" aria-label="Aumentar">+</button>
-            </div>
-          </div>
-          ${chips('tipo', 'Tipo', ['Banho', 'Rosto', 'Piscina', 'Banho e rosto'])}`,
-        mensagem: (r) => {
-          const qtd = r.querySelector('output[name="qtd"]').textContent;
-          return `Gostaria de solicitar ${qtd} toalha(s) — tipo: ${chipValue(r, 'tipo').toLowerCase()}.`;
+          ${stepperField('hospedes', 'Hóspedes no quarto', Math.min(6, Math.max(1, +store.get('th_hospedes', '1') || 1)))}
+          ${stepperField('qtd', 'Quantidade de toalhas', 1, ' ')}
+          ${chips('tipo', 'Tipo', ['Banho', 'Rosto', 'Banho e rosto'])}
+          <div class="notice" data-limite hidden>
+            ${icon('towel')}
+            <span>Você já atingiu o limite de toalhas de hoje para este quarto. Se precisar de mais, <button type="button" class="link" data-action="recepcao">fale com a recepção</button>.</span>
+          </div>`,
+        onMount: (root, form) => {
+          const hint = root.querySelector('[data-hint-for="qtd"]');
+          const aviso = root.querySelector('[data-limite]');
+          const submit = form.querySelector('[type="submit"]');
+          const disponivel = () => Math.max(0, hospedes.get() * porHospede - toalhasHoje(form.quarto.value.trim()));
+          const atualizar = () => {
+            const total = hospedes.get() * porHospede;
+            const livre = disponivel();
+            const jaPediu = total - livre;
+            hint.textContent = jaPediu > 0
+              ? `Limite de ${total} para ${hospedes.get()} hóspede(s) — ${jaPediu} já solicitada(s) hoje, restam ${livre}.`
+              : `Limite de ${total} toalha(s) para ${hospedes.get()} hóspede(s).`;
+            aviso.hidden = livre > 0;
+            submit.disabled = livre === 0;
+            if (qtd) qtd.refresh();
+          };
+          hospedes = bindStepper(root, 'hospedes', { min: 1, max: 6, onChange: atualizar });
+          qtd = bindStepper(root, 'qtd', { min: 1, max: () => Math.max(1, disponivel()) });
+          form.quarto.addEventListener('input', atualizar);
+          atualizar();
+        },
+        validar: (root, form) => {
+          const livre = hospedes.get() * porHospede - toalhasHoje(form.quarto.value.trim());
+          if (qtd.get() > livre) { toast('Quantidade acima do limite por hóspede'); return false; }
+        },
+        mensagem: () => {
+          const tipo = chipValue($('#sheet-body'), 'tipo').toLowerCase();
+          return `Gostaria de solicitar ${qtd.get()} toalha(s) — tipo: ${tipo}. ` +
+            `Hóspedes no quarto: ${hospedes.get()} (limite de ${porHospede} por hóspede).`;
+        },
+        aoEnviar: (root, form, quarto) => {
+          store.set('th_hospedes', String(hospedes.get()));
+          registrarToalhas(quarto, qtd.get());
         },
         sucesso: 'Pedido de toalhas enviado'
       });
-      const root = $('#sheet-body');
-      const out = root.querySelector('output[name="qtd"]');
-      const [minus, plus] = root.querySelectorAll('[data-step]');
-      const sync = () => { minus.disabled = +out.textContent <= 1; plus.disabled = +out.textContent >= 6; };
-      root.querySelectorAll('[data-step]').forEach((b) => b.addEventListener('click', () => {
-        out.textContent = Math.min(6, Math.max(1, +out.textContent + +b.dataset.step));
-        sync();
-      }));
-      sync();
+    },
+
+    delivery() {
+      const quarto = store.get('th_quarto');
+      const complemento = `${H.nome}${quarto ? ` · Quarto ${quarto}` : ' · Quarto ___'}`;
+      requestSheet({
+        ic: 'scooter',
+        titulo: 'Avisar delivery',
+        texto: 'Pediu comida por aplicativo ou direto no restaurante? Avise a recepção para que o entregador encontre você sem demora.',
+        botao: 'Avisar a recepção',
+        antes: `
+          <div class="address">
+            <div>
+              <span class="field__label">Endereço para o app</span>
+              <p class="address__text">${esc(H.endereco)}</p>
+              <p class="address__sub">Complemento: <b data-complemento>${esc(complemento)}</b></p>
+            </div>
+            <button type="button" class="icon-btn" data-copy-address aria-label="Copiar endereço">${icon('copy')}</button>
+          </div>`,
+        campos: `
+          <label class="field">
+            <span class="field__label">Nome que está no pedido</span>
+            <input class="input" name="nome" autocomplete="name" placeholder="Ex: Maria Souza" maxlength="60" value="${esc(store.get('th_nome_pedido'))}">
+            <span class="field__hint">Às vezes o pedido está em nome de outra pessoa — informe o nome que aparece no app.</span>
+          </label>
+          ${chips('app', 'Por onde pediu?', ['iFood', '99Food', 'Direto no restaurante', 'Outro'])}
+          <label class="field">
+            <span class="field__label">Restaurante (opcional)</span>
+            <input class="input" name="restaurante" placeholder="Ex: Brasa 86" maxlength="60">
+          </label>
+          ${chips('previsao', 'Previsão de chegada', ['Até 20 min', '30 min', '45 min', '1 hora ou mais'], 1)}
+          ${chips('pagamento', 'Pagamento', ['Já pago no app', 'Pagar na entrega'])}
+          ${noteField('Ex: vou descer para buscar na recepção')}`,
+        onMount: (root, form) => {
+          const alvo = root.querySelector('[data-complemento]');
+          form.quarto.addEventListener('input', () => {
+            const q = form.quarto.value.trim();
+            alvo.textContent = `${H.nome} · Quarto ${q || '___'}`;
+          });
+          root.querySelector('[data-copy-address]').addEventListener('click', () =>
+            copy(`${H.endereco} — Complemento: ${alvo.textContent}`));
+        },
+        validar: (root, form) => {
+          if (!form.nome.value.trim()) {
+            markInvalid(form.nome, 'Informe o nome que está no pedido');
+            return false;
+          }
+        },
+        mensagem: (root, form) => {
+          const restaurante = form.restaurante.value.trim();
+          return [
+            '\n🛵 *Aviso de delivery*',
+            `• Nome no pedido: ${form.nome.value.trim()}`,
+            `• Pedido via: ${chipValue(root, 'app')}`,
+            restaurante && `• Restaurante: ${restaurante}`,
+            `• Previsão de chegada: ${chipValue(root, 'previsao')}`,
+            `• Pagamento: ${chipValue(root, 'pagamento').toLowerCase()}`
+          ].filter(Boolean).join('\n');
+        },
+        aoEnviar: (root, form) => store.set('th_nome_pedido', form.nome.value.trim()),
+        sucesso: 'Recepção avisada sobre seu delivery'
+      });
     },
 
     ferro() {
@@ -247,8 +380,7 @@
       sheet.open(`
         ${head('coffee', 'Café da manhã', `Servido no ${esc(H.horarios.cafeLocal)}.`)}
         <ul class="info-list">
-          <li><span>Segunda a sexta</span><b>${esc(H.horarios.cafe)}</b></li>
-          <li><span>Sábados, domingos e feriados</span><b>${esc(H.horarios.cafeFds)}</b></li>
+          <li><span>Todos os dias, inclusive fins de semana e feriados</span><b>${esc(H.horarios.cafe)}</b></li>
         </ul>
         <p class="sheet__text" style="margin-top:14px">Incluso na sua diária. Temos opções regionais, sem glúten e sem lactose — é só pedir à equipe.</p>`);
     },

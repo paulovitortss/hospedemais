@@ -33,7 +33,8 @@
     { action: 'recepcao', icon: 'concierge', name: 'Falar com a recepção', text: 'WhatsApp ou telefone, 24 horas' },
     { action: 'limpeza', icon: 'broom', name: 'Solicitar limpeza', text: 'Escolha o melhor horário' },
     { action: 'toalhas', icon: 'towel', name: 'Solicitar toalhas', text: 'Entregues no seu quarto' },
-    { action: 'ferro', icon: 'iron', name: 'Solicitar ferro', text: 'Ferro e tábua de passar' }
+    { action: 'ferro', icon: 'iron', name: 'Solicitar ferro', text: 'Ferro e tábua de passar' },
+    { action: 'delivery', icon: 'scooter', name: 'Avisar delivery', text: 'Pediu comida? Avise a recepção' }
   ];
 
   /* ---------- Topbar ---------- */
@@ -97,6 +98,8 @@
         </div>
       </section>
 
+      <div class="container">${deliveryCta()}</div>
+
       <section class="section container" aria-labelledby="explore-title">
         <div class="section__head">
           <p class="eyebrow">Explore a cidade</p>
@@ -109,7 +112,7 @@
           <div>
             <span class="service-banner__eyebrow">Para você</span>
             <h3 class="service-banner__title">Serviços do hotel</h3>
-            <p class="service-banner__text">Recepção, limpeza, toalhas, ferro e Wi-Fi</p>
+            <p class="service-banner__text">Recepção, limpeza, toalhas, delivery e Wi-Fi</p>
           </div>
           <span class="service-banner__go" aria-hidden="true">→</span>
         </a>
@@ -148,6 +151,7 @@
         <p class="lead">${esc(cat.lead)}</p>
       </section>
       <section class="section container" aria-label="Categorias">
+        ${cat.id === 'alimentacao' ? deliveryCta() : ''}
         <div class="grid-subs">${subs}</div>
       </section>
       ${footer()}`;
@@ -192,6 +196,7 @@
         <p class="lead">${esc(sub.lead)}</p>
       </section>
       <section class="section container" aria-label="Recomendações">
+        ${cat.id === 'alimentacao' ? deliveryCta() : ''}
         <div class="places">${cards || '<p class="empty">Em breve novas indicações por aqui.</p>'}</div>
       </section>
       ${footer()}`;
@@ -228,8 +233,7 @@
           <h2 class="title" id="hours-title">Sua rotina</h2>
         </div>
         <ul class="info-list">
-          <li><span>Café da manhã</span><b>${esc(H.horarios.cafe)}</b></li>
-          <li><span>Café aos fins de semana</span><b>${esc(H.horarios.cafeFds)}</b></li>
+          <li><span>Café da manhã (todos os dias)</span><b>${esc(H.horarios.cafe)}</b></li>
           <li><span>Check-in</span><b>${esc(H.horarios.checkin)}</b></li>
           <li><span>Check-out</span><b>${esc(H.horarios.checkout)}</b></li>
         </ul>
@@ -246,6 +250,18 @@
         <p class="lead" style="margin-inline:auto">O conteúdo que você procura não está disponível.</p>
         <p style="margin-top:24px"><a class="btn btn--gold" href="#/">Voltar ao início</a></p>
       </section>`;
+  }
+
+  function deliveryCta() {
+    return `
+      <button class="delivery-cta" type="button" data-action="delivery">
+        <span class="delivery-cta__icon">${icon('scooter')}</span>
+        <span class="delivery-cta__body">
+          <span class="delivery-cta__title">Pediu delivery?</span>
+          <span class="delivery-cta__text">Avise a recepção com o nome do pedido e o número do quarto</span>
+        </span>
+        <span class="delivery-cta__go" aria-hidden="true">→</span>
+      </button>`;
   }
 
   function footer() {
@@ -334,7 +350,7 @@
   function splash() {
     const el = $('#splash');
     if (store.session('th_splash') || location.hash.length > 2) return;
-    el.querySelector('[data-logo]').innerHTML = logo({ draw: true });
+    el.querySelector('[data-logo]').innerHTML = logo({ reveal: true });
     el.hidden = false;
     document.body.classList.add('is-locked');
     const leave = () => {

@@ -46,6 +46,7 @@
     broom: s('<path d="M14 3 9.5 11"/><path d="M6.5 10.5 13 14l-1.5 7c-3-1-7-3.5-8.5-6.5Z"/><path d="m7 17 2-2.5M10 19l1-2.5"/>'),
     towel: s('<path d="M6 3h12a2 2 0 0 1 2 2v3H4V5a2 2 0 0 1 2-2Z"/><path d="M5 8v11.5A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8"/><path d="M5 16h14M5 18.5h14"/>'),
     iron: s('<path d="M3 17.5h17V15a6 6 0 0 0-6-6H9"/><path d="M3 17.5C3 13 6 10 10.5 10"/><path d="M9 9V6h8"/><path d="M8 13.5h.01M11 13.5h.01M14 13.5h.01"/>'),
+    scooter: s('<circle cx="6" cy="17.5" r="2.5"/><circle cx="18" cy="17.5" r="2.5"/><path d="M8.5 17.5h6.5l2-6h-3.5"/><path d="M3.5 17.5V13a2 2 0 0 1 2-2H10v6.5"/><path d="M15.5 5.5h2l1.5 6"/><rect x="3.5" y="4.5" width="6.5" height="5" rx="1"/>'),
     coffee: s('<path d="M4 9h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5Z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 2.5c0 1.5 1 1.5 1 3M12 2.5c0 1.5 1 1.5 1 3"/>'),
     door: s('<path d="M13 3.5 5.5 5v15l7.5 1.5Z"/><path d="M13 5h5.5v15H13"/><circle cx="10.5" cy="12.5" r=".6" fill="currentColor"/><path d="M3 20h2.5M18.5 20H21"/>'),
     phone: s('<path d="M5 3.5h3.5l1.8 4.5-2.3 1.4a10.5 10.5 0 0 0 5.6 5.6l1.4-2.3 4.5 1.8V18A2.5 2.5 0 0 1 17 20.5 14.5 14.5 0 0 1 2.5 6 2.5 2.5 0 0 1 5 3.5Z"/>'),
@@ -64,24 +65,10 @@
     spark: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c.6 6.8 5.2 11.4 12 12-6.8.6-11.4 5.2-12 12-.6-6.8-5.2-11.4-12-12C6.8 11.4 11.4 6.8 12 0Z"/></svg>'
   };
 
-  /* Logo: anel + monograma TH + duas estrelas de quatro pontas */
+  /* Logo oficial do hotel (assets/logo.png, monograma creme com fundo transparente) */
   function logo(opts = {}) {
-    const draw = opts.draw ? ' logo--draw' : '';
-    const star = (cx, cy, r) =>
-      `<path class="logo__star" fill="currentColor" d="M${cx} ${cy - r}C${cx + r * .18} ${cy - r * .18} ${cx + r * .18} ${cy - r * .18} ${cx + r} ${cy}C${cx + r * .18} ${cy + r * .18} ${cx + r * .18} ${cy + r * .18} ${cx} ${cy + r}C${cx - r * .18} ${cy + r * .18} ${cx - r * .18} ${cy + r * .18} ${cx - r} ${cy}C${cx - r * .18} ${cy - r * .18} ${cx - r * .18} ${cy - r * .18} ${cx} ${cy - r}Z"/>`;
-    return `<span class="logo${draw}" role="img" aria-label="Teresina Hotel">
-      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-linecap="square">
-        <circle class="logo__ring" cx="50" cy="50" r="46" stroke-width="2.6"/>
-        <g class="logo__mark" stroke-width="2.4">
-          <path d="M33 27.5h34M33 27.5v5M67 27.5v5"/>
-          <path d="M48.3 27.5v45M51.7 27.5v45M44 72.5h12"/>
-          <path d="M38 42v30.5M62 42v30.5M34.5 42h7M58.5 42h7M34.5 72.5h7M58.5 72.5h7"/>
-          <path d="M38 55h24"/>
-        </g>
-        ${star(19, 50, 4.6)}
-        ${star(81, 50, 4.6)}
-      </svg>
-    </span>`;
+    const reveal = opts.reveal ? ' logo--reveal' : '';
+    return `<span class="logo${reveal}"><img src="assets/logo.png?v=5" alt="Teresina Hotel" decoding="async"></span>`;
   }
 
   window.ICONS = ICONS;
