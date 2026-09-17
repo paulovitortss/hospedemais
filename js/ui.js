@@ -378,7 +378,7 @@
 
     cafe() {
       sheet.open(`
-        ${head('coffee', 'Café da manhã', `Servido no ${esc(H.horarios.cafeLocal)}.`)}
+        ${head('coffee', 'Café da manhã', '')}
         <ul class="info-list">
           <li><span>Todos os dias, inclusive fins de semana e feriados</span><b>${esc(H.horarios.cafe)}</b></li>
         </ul>

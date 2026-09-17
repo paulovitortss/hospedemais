@@ -21,7 +21,6 @@ window.HOTEL = {
   toalhasPorHospede: 2,
   horarios: {
     cafe: '07h00 – 09h30',
-    cafeLocal: 'Restaurante Parnaíba · Térreo',
     checkin: '14h00',
     checkout: '12h00',
     lateCheckout: 'Até 15h, sujeito à disponibilidade'
