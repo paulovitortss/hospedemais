@@ -107,6 +107,7 @@ window.CATEGORIES = [
             endereco: 'Av. Dom Severino, 1631 - Fátima',
             nota: '4,6 (864)',
             horario: 'Seg a qua 11h – 15h e 18h – 00h · Qui a dom 11h – 00h',
+            telefone: '+558532679450',
             instagram: 'vignoliteresina'
           },
           {
