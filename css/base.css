@@ -302,5 +302,11 @@ input, textarea { font: inherit; color: inherit; }
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+  /* A faixa continua andando devagar mesmo com "reduzir movimento" ligado,
+     em vez de acelerar (o que acontecia com a duração encurtada acima). */
+  .band__track {
+    animation-duration: 60s !important;
+    animation-iteration-count: infinite !important;
+  }
   html { scroll-behavior: auto; }
 }

@@ -209,7 +209,12 @@
 .band__track {
   display: flex;
   width: max-content;
-  will-change: transform; /* movimento controlado em js/app.js (startMarquee) */
+  will-change: transform;
+  animation: marquee 60s linear infinite; /* ~24px/s; ver exceção em base.css */
+}
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
 .band__item {
   display: inline-flex;
