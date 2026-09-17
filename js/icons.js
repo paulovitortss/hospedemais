@@ -69,7 +69,7 @@
   /* Logo oficial do hotel (assets/logo.png, monograma creme com fundo transparente) */
   function logo(opts = {}) {
     const reveal = opts.reveal ? ' logo--reveal' : '';
-    return `<span class="logo${reveal}"><img src="assets/logo.png?v=6" alt="Teresina Hotel" decoding="async"></span>`;
+    return `<span class="logo${reveal}"><img src="assets/logo.png?v=7" alt="Teresina Hotel" decoding="async"></span>`;
   }
 
   window.ICONS = ICONS;

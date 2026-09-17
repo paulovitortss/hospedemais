@@ -62,14 +62,14 @@
     renderTopbar({ home: true });
 
     const cats = CATS.map((c) => `
-      <a class="cat-card" href="#/c/${c.id}" style="--tint:${c.tint}">
+      <a class="cat-card" href="#/c/${c.id}">
+        <span class="cat-card__foto" aria-hidden="true" style="--foto:url('${c.foto}')"></span>
         <span class="cat-card__icon">${icon(c.icon)}</span>
         <span class="cat-card__arrow" aria-hidden="true">→</span>
         <div>
           <h3 class="cat-card__name">${esc(c.nome).replace('Bem-estar', 'Bem&#8209;estar')}</h3>
           <p class="cat-card__meta">${esc(c.meta)}</p>
         </div>
-        <span class="cat-card__watermark" aria-hidden="true">${icon(c.icon)}</span>
       </a>`).join('');
 
     const quick = QUICK.map((q) => `
@@ -84,7 +84,6 @@
 
     return `
       <section class="hero">
-        <div class="stars" aria-hidden="true"></div>
         <div class="container hero__inner">
           <div class="hero__logo">${logo()}</div>
           <p class="eyebrow eyebrow--center">Bem-vindo à sua estadia</p>
@@ -144,6 +143,7 @@
       </a>`).join('');
 
     return `
+      <div class="page-photo" style="--foto:url('${cat.foto}')" aria-hidden="true"></div>
       <section class="page-hero container">
         <div class="page-hero__icon">${icon(cat.icon)}</div>
         <p class="eyebrow">${esc(cat.nome)}</p>
@@ -195,6 +195,7 @@
     }).join('');
 
     return `
+      <div class="page-photo page-photo--slim" style="--foto:url('${cat.foto}')" aria-hidden="true"></div>
       <section class="page-hero container">
         <ol class="crumbs">
           <li><a href="#/">Início</a></li>

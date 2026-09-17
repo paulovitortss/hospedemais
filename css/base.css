@@ -15,7 +15,7 @@
   --gold: #C9A24B;
   --gold-hi: #EFD79A;
   --gold-deep: #9A7A34;
-  --gold-grad: linear-gradient(135deg, #9A7A34 0%, #EFD79A 38%, #C9A24B 62%, #F4E6BC 100%);
+  --gold-grad: var(--gold); /* superficie chapada, sem degrade */
 
   --cream: #F4EEE2;
   --cream-dim: rgba(244, 238, 226, .72);
@@ -49,10 +49,7 @@ body {
   font-weight: 400;
   line-height: 1.55;
   color: var(--cream);
-  background:
-    radial-gradient(120% 60% at 50% -10%, rgba(92, 82, 66, .55) 0%, transparent 60%),
-    var(--base);
-  background-attachment: fixed;
+  background: var(--base);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   padding-bottom: calc(var(--dock-h) + var(--safe-b) + 24px);
@@ -135,11 +132,9 @@ input, textarea { font: inherit; color: inherit; }
 
 .btn--gold {
   color: #241A06;
-  background: var(--gold-grad);
-  background-size: 160% 160%;
-  box-shadow: 0 10px 30px -12px rgba(201, 162, 75, .7);
+  background: var(--gold);
 }
-.btn--gold:hover { background-position: 100% 0; }
+.btn--gold:hover { background: var(--gold-hi); }
 
 .btn--ghost {
   color: var(--cream);
@@ -174,9 +169,7 @@ input, textarea { font: inherit; color: inherit; }
   place-items: center;
   padding: 32px var(--gutter);
   text-align: center;
-  background:
-    radial-gradient(80% 55% at 50% 38%, rgba(122, 109, 88, .5) 0%, transparent 70%),
-    linear-gradient(180deg, #2A241E 0%, var(--ink) 100%);
+  background: var(--ink);
   transition: opacity .7s var(--ease), visibility .7s;
 }
 .splash.is-leaving { opacity: 0; visibility: hidden; }
@@ -192,7 +185,7 @@ input, textarea { font: inherit; color: inherit; }
   aspect-ratio: 1;
   margin-bottom: 36px;
   color: var(--cream);
-  filter: drop-shadow(0 0 40px rgba(239, 215, 154, .18));
+
 }
 .splash__title {
   margin: 0;
@@ -218,19 +211,18 @@ input, textarea { font: inherit; color: inherit; }
 .splash .btn { animation-delay: 1s; }
 @keyframes rise { to { opacity: 1; transform: none; } }
 
-.splash__stars, .stars {
+/* Foto de fundo da tela de boas-vindas (Unsplash, uso livre) */
+.splash__photo {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, rgba(239, 215, 154, .7), transparent 60%),
-    radial-gradient(1px 1px at 78% 12%, rgba(244, 238, 226, .5), transparent 60%),
-    radial-gradient(1.5px 1.5px at 88% 46%, rgba(239, 215, 154, .6), transparent 60%),
-    radial-gradient(1px 1px at 22% 72%, rgba(244, 238, 226, .45), transparent 60%),
-    radial-gradient(1px 1px at 64% 84%, rgba(239, 215, 154, .55), transparent 60%),
-    radial-gradient(1.5px 1.5px at 40% 34%, rgba(244, 238, 226, .35), transparent 60%),
-    radial-gradient(1px 1px at 6% 52%, rgba(239, 215, 154, .5), transparent 60%),
-    radial-gradient(1px 1px at 52% 6%, rgba(244, 238, 226, .4), transparent 60%);
+  background: var(--ink) url('https://images.unsplash.com/photo-1552858725-2758b5fb1286?auto=format&fit=crop&w=1000&q=60') center/cover no-repeat;
+  opacity: .28;
+}
+.splash__photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 15, 12, .55);
 }
 
 /* ---------- Topbar ---------- */

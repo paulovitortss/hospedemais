@@ -13,9 +13,7 @@
   padding: 20px 18px 18px;
   border-radius: var(--radius);
   border: 1px solid var(--line-soft);
-  background:
-    radial-gradient(100% 70% at 100% 0%, rgba(201, 162, 75, .09) 0%, transparent 60%),
-    linear-gradient(180deg, var(--surface) 0%, var(--base-2) 100%);
+  background: var(--surface);
 }
 .place__top {
   display: flex;
@@ -86,8 +84,7 @@
 
 .btn--wa {
   color: #0B2615;
-  background: linear-gradient(135deg, #1FAF55 0%, #4BE08A 55%, #25D366 100%);
-  box-shadow: 0 10px 26px -14px rgba(37, 211, 102, .8);
+  background: var(--whatsapp);
 }
 
 .empty {
@@ -110,7 +107,7 @@
   padding: 16px;
   border-radius: var(--radius);
   border: 1px solid var(--line-soft);
-  background: linear-gradient(180deg, var(--surface) 0%, var(--base-2) 100%);
+  background: var(--surface);
   text-align: left;
   transition: border-color .25s, transform .2s;
 }
@@ -135,9 +132,7 @@
   padding: 18px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
-  background:
-    radial-gradient(120% 120% at 100% 0%, rgba(201, 162, 75, .18) 0%, transparent 60%),
-    linear-gradient(180deg, #3A3128 0%, var(--base-2) 100%);
+  background: var(--surface);
 }
 .wifi__head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
 .wifi__row {
@@ -222,10 +217,8 @@
   padding: 10px var(--gutter) calc(24px + var(--safe-b));
   border-radius: 26px 26px 0 0;
   border-top: 1px solid var(--line);
-  background:
-    radial-gradient(100% 50% at 50% 0%, rgba(92, 82, 66, .45) 0%, transparent 70%),
-    var(--base-2);
-  box-shadow: 0 -30px 60px -20px rgba(0, 0, 0, .7);
+  background: var(--base-2);
+  box-shadow: 0 -18px 40px -24px rgba(0, 0, 0, .55);
   transform: translateY(100%);
   transition: transform .45s var(--ease);
 }
@@ -381,7 +374,7 @@ textarea.input { min-height: 84px; resize: vertical; }
   background: rgba(34, 29, 24, .86);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   backdrop-filter: blur(16px) saturate(140%);
-  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .8);
+  box-shadow: 0 10px 24px -18px rgba(0, 0, 0, .7);
   transform: translateX(-50%);
 }
 .dock__item {
@@ -416,7 +409,7 @@ textarea.input { min-height: 84px; resize: vertical; }
   color: var(--ink);
   font-size: 13.5px;
   font-weight: 600;
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, .6);
+  box-shadow: 0 8px 20px -12px rgba(0, 0, 0, .5);
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, 12px);
