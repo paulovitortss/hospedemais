@@ -162,12 +162,14 @@
 
     const cards = sub.lugares.map((l, i) => {
       const meta = [
-        l.bairro && `<li>${icon('pin')}${esc(l.bairro)}</li>`,
+        l.nota && `<li>${icon('star')}${esc(l.nota)}</li>`,
+        (l.endereco || l.bairro) && `<li>${icon('pin')}${esc(l.endereco || l.bairro)}</li>`,
         l.dist && l.dist !== '—' && `<li>${icon('walk')}${esc(l.dist)}</li>`,
         l.preco && `<li>${icon('wallet')}${esc(l.preco)}</li>`,
         l.horario && `<li>${icon('clock')}${esc(l.horario)}</li>`
       ].filter(Boolean).join('');
       const msg = `Olá! Vi a indicação de vocês no guia do ${H.nome} e gostaria de mais informações.`;
+      const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${l.nome} ${l.endereco || l.bairro || ''} Teresina PI`)}`;
 
       return `
         <article class="place">
@@ -179,9 +181,16 @@
           <p class="place__desc">${esc(l.desc)}</p>
           <ul class="place__meta">${meta}</ul>
           <div class="place__actions">
-            ${l.whatsapp ? `<a class="btn btn--wa" href="${waLink(l.whatsapp, msg)}" target="_blank" rel="noopener" aria-label="WhatsApp de ${esc(l.nome)}">${icon('whatsapp')} WhatsApp</a>` : ''}
+            ${l.whatsapp
+              ? `<a class="btn btn--wa" href="${waLink(l.whatsapp, msg)}" target="_blank" rel="noopener" aria-label="WhatsApp de ${esc(l.nome)}">${icon('whatsapp')} WhatsApp</a>`
+              : l.telefone
+                ? `<a class="btn btn--gold" href="tel:${esc(l.telefone)}" aria-label="Ligar para ${esc(l.nome)}">${icon('phone')} Ligar</a>`
+                : ''}
             ${l.instagram ? `<a class="btn btn--ghost" href="${igLink(l.instagram)}" target="_blank" rel="noopener" aria-label="Instagram de ${esc(l.nome)}">${icon('instagram')} Instagram</a>` : ''}
           </div>
+          <a class="place__map" href="${mapa}" target="_blank" rel="noopener">
+            ${icon('pin')} Ver no mapa e conferir se está aberto
+          </a>
         </article>`;
     }).join('');
 

@@ -70,7 +70,19 @@
   gap: 10px;
   margin-top: auto;
 }
+.place__actions:has(> :only-child) { grid-template-columns: 1fr; }
 .place__actions .btn { padding: 0 12px; font-size: 14px; }
+.place__map {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold-hi);
+}
+.place__map svg { width: 15px; height: 15px; }
+.place__map:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 .btn--wa {
   color: #0B2615;

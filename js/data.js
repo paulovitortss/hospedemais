@@ -1,7 +1,10 @@
 /* ==========================================================
    DADOS DO HOTEL E RECOMENDAÇÕES
-   ⚠ Todos os estabelecimentos, telefones e @ abaixo são
-   EXEMPLOS FICTÍCIOS. Substitua pelos parceiros reais.
+   ALIMENTAÇÃO: estabelecimentos reais, com dados coletados no
+   Google Maps e no Instagram em 17/09/2026. Confira antes de
+   publicar — horários e telefones mudam.
+   ⚠ MOBILIDADE, BELEZA e VIDA NOTURNA ainda são EXEMPLOS
+   FICTÍCIOS. Substitua pelos parceiros reais.
    WhatsApp: só números, com DDI + DDD (ex: 5586999998888)
    Instagram: apenas o usuário, sem @
    ========================================================== */
@@ -41,38 +44,159 @@ window.CATEGORIES = [
     subs: [
       {
         id: 'regional', nome: 'Comida Regional', icon: 'regional',
-        lead: 'Maria Isabel, capote, paçoca de carne de sol e cajuína gelada.',
+        lead: 'Carne de sol, carneiro na brasa, baião de dois e o melhor da cozinha piauiense.',
         lugares: [
-          p('Casa Mandacaru', 'Cozinha piauiense afetiva: Maria Isabel, carne de sol na nata e baião de dois.', 'Centro', '800 m', '$$', '11h – 15h · 18h – 23h', '5586900000101', 'casamandacaru.the', 'Favorito dos hóspedes'),
-          p('Quintal da Cajuína', 'Almoço servido em quintal arborizado, com capote ao molho pardo e doces caseiros.', 'Ilhotas', '2,1 km', '$$', '11h – 16h', '5586900000102', 'quintaldacajuina'),
-          p('Sabor do Parnaíba', 'Peixes de rio, galinha caipira e o clássico arroz de capote à beira do rio.', 'Poti Velho', '6 km', '$$$', '11h – 22h', '5586900000103', 'sabordoparnaiba')
+          {
+            nome: 'São João Restaurante',
+            desc: 'Cozinha regional em ambiente campestre, referência na carne de sol de Teresina.',
+            bairro: 'Fátima',
+            endereco: 'Av. Nossa Sra. de Fátima, 2616 - Fátima',
+            nota: '4,6 (1.190)',
+            preco: 'R$ 80–200',
+            horario: 'Seg a sáb 11h – 00h · Dom 11h – 15h30',
+            whatsapp: '5586994686230',
+            telefone: '+558632339765',
+            instagram: 'saojoaorestaurantes.leste',
+            tag: 'Clássico da carne de sol'
+          },
+          {
+            nome: 'Restaurante Malaguetta',
+            desc: 'Comida caseira piauiense: carne de sol, picanha, petiscos e almoço farto.',
+            bairro: 'Fátima',
+            endereco: 'Av. Lindolfo Monteiro, 2060 - Fátima',
+            nota: '4,5 (2.306)',
+            preco: 'R$ 60–140',
+            horario: 'Ter a sex 18h – 00h · Sáb e dom 11h – 15h e 18h – 00h · Seg fechado',
+            telefone: '+558632163961',
+            instagram: 'malaguettathe'
+          },
+          {
+            nome: 'Carneiro na Brasa da Zefinha',
+            desc: 'Filé de carneiro na brasa com baião de dois e macaxeira. Tradição desde 1999.',
+            bairro: 'São Cristóvão',
+            endereco: 'R. Prof. Clemente Fortes, 2260 - São Cristóvão',
+            nota: '4,6 (1.381)',
+            preco: 'R$ 60–180',
+            horario: 'Ter a dom 10h – 00h · Seg fechado',
+            whatsapp: '5586999584302',
+            telefone: '+558632338843',
+            instagram: 'carneironabrasadazefinha',
+            tag: 'Desde 1999'
+          }
         ]
       },
       {
         id: 'pizzarias', nome: 'Pizzarias', icon: 'pizza',
-        lead: 'Massa de fermentação natural, forno a lenha e delivery até o hotel.',
+        lead: 'Forno a lenha, massas artesanais e cozinha italiana.',
         lugares: [
-          p('Forno Chapada', 'Pizza napolitana em forno a lenha, com opção de carne de sol com queijo coalho.', 'Jóquei', '3,4 km', '$$', '18h – 23h30', '5586900000201', 'fornochapada', 'Entrega no hotel'),
-          p('Nonna Piauí', 'Ambiente familiar, bordas recheadas e rodízio às terças e quartas.', 'Fátima', '2,8 km', '$$', '18h – 00h', '5586900000202', 'nonnapiaui'),
-          p('Pizza da Praça', 'Fatias generosas e opções veganas. Ótima para pedir no quarto.', 'Centro', '600 m', '$', '17h – 23h', '5586900000203', 'pizzadapraca.the')
+          {
+            nome: 'Forno Paulista - Leste',
+            desc: 'Pizzas artesanais com delivery a partir das 15h. Uma das mais pedidas da cidade.',
+            bairro: 'Fátima',
+            endereco: 'R. Hugo Napoleão, 1778 - Fátima',
+            nota: '4,4 (1.242)',
+            horario: 'Todos os dias 15h – 23h',
+            whatsapp: '5586995709028',
+            instagram: 'fornopaulista',
+            tag: 'Delivery'
+          },
+          {
+            nome: 'Vignoli - Teresina',
+            desc: 'Casa italiana com pizzas, massas e almoço executivo em ambiente acolhedor.',
+            bairro: 'Fátima',
+            endereco: 'Av. Dom Severino, 1631 - Fátima',
+            nota: '4,6 (864)',
+            horario: 'Seg a qua 11h – 15h e 18h – 00h · Qui a dom 11h – 00h',
+            instagram: 'vignoliteresina'
+          },
+          {
+            nome: 'Forneria Favorito',
+            desc: 'Pizzas em forno a lenha, massas e cozinha italiana contemporânea.',
+            bairro: 'Fátima',
+            endereco: 'Av. Nossa Sra. de Fátima, 1839 - Fátima',
+            nota: '4,5 (691)',
+            horario: 'Seg a sex 18h – 00h · Sáb e dom 12h – 15h e 18h – 00h',
+            whatsapp: '5586999881607',
+            telefone: '+558632341500',
+            instagram: 'favorito.forneria'
+          }
         ]
       },
       {
         id: 'hamburguerias', nome: 'Hamburguerias', icon: 'burger',
-        lead: 'Smash, artesanais na brasa e combos para matar a fome.',
+        lead: 'Artesanais, smash e lanches até de madrugada.',
         lugares: [
-          p('Brasa 86', 'Blend da casa na brasa, pão brioche e batata rústica com alecrim.', 'Jóquei', '3,1 km', '$$', '18h – 00h', '5586900000301', 'brasa86burger', 'Mais pedido'),
-          p('Smash do Poti', 'Smash burger duplo, milkshakes e cardápio kids.', 'Noivos', '4 km', '$', '17h30 – 23h30', '5586900000302', 'smashdopoti'),
-          p('Chapa Quente', 'Hambúrguer de costela e opções com queijo coalho e mel de engenho.', 'Centro', '1 km', '$$', '18h – 23h', '5586900000303', 'chapaquente.the')
+          {
+            nome: "45' Burger e Pizza - Jóquei",
+            desc: 'Hamburgueria premiada no Piauí, com opções de pizza na mesma casa.',
+            bairro: 'Ininga',
+            endereco: 'R. Visc. da Parnaíba, 1615 - Ininga',
+            nota: '4,8 (1.016)',
+            whatsapp: '5586998645005',
+            instagram: '45burger',
+            tag: 'Nota 4,8 no Google'
+          },
+          {
+            nome: 'Bruthus Burger - Unidade Ininga',
+            desc: 'Hambúrgueres artesanais, torresmo e milk-shakes em clima descontraído.',
+            bairro: 'Fátima',
+            endereco: 'Av. Ininga, 1570 - Fátima',
+            nota: '4,5 (2.111)',
+            horario: 'Seg a qui 18h – 23h · Sex a dom 18h – 00h',
+            telefone: '+558633030692',
+            instagram: 'bruthusburger'
+          },
+          {
+            nome: 'Dogão Burguer Fátima',
+            desc: 'Hambúrgueres e cachorro-quente servidos até de madrugada.',
+            bairro: 'Fátima',
+            endereco: 'Av. Nossa Sra. de Fátima, 1900 - Fátima',
+            nota: '4,3 (1.320)',
+            horario: 'Todos os dias 17h – 05h',
+            whatsapp: '5586995563546',
+            telefone: '+558633042961',
+            instagram: 'dogaofatima',
+            tag: 'Aberto até 5h'
+          }
         ]
       },
       {
         id: 'japones', nome: 'Japonês', icon: 'sushi',
-        lead: 'Sushi, temakis e rodízios para todos os gostos.',
+        lead: 'Sushi, combinados e culinária japonesa.',
         lugares: [
-          p('Kaiyō Sushi', 'Omakase no balcão e peixes frescos selecionados todos os dias.', 'Jóquei', '3,6 km', '$$$', '18h30 – 23h30', '5586900000401', 'kaiyosushi.the', 'Experiência'),
-          p('Sakura Poti', 'Rodízio completo com pratos quentes, yakisoba e sobremesas.', 'Fátima', '2,9 km', '$$', '11h30 – 15h · 18h – 23h', '5586900000402', 'sakurapoti'),
-          p('Temaki Bar 86', 'Temakis generosos, poke bowls e delivery rápido até o hotel.', 'Ilhotas', '1,9 km', '$', '17h – 23h', '5586900000403', 'temakibar86')
+          {
+            nome: 'Takashi Sushi - TK',
+            desc: 'Combinados e sushi preparados na hora, em ambiente intimista no Jóquei.',
+            bairro: 'Jóquei',
+            endereco: 'Av. Jóquei Clube, 1473 - Jóquei',
+            nota: '4,8 (58)',
+            horario: 'Todos os dias 18h – 23h',
+            whatsapp: '5586999112088',
+            instagram: 'takashi_sushithe',
+            tag: 'Nota 4,8 no Google'
+          },
+          {
+            nome: 'Sushi Club',
+            desc: 'Sushi no almoço e no jantar, com delivery e opções para viagem.',
+            bairro: 'Jóquei',
+            endereco: 'R. Anfrísio Lobão, 1196 - Jóquei',
+            nota: '4,2 (51)',
+            preco: 'R$ 40–60',
+            horario: 'Almoço 11h – 14h · Jantar 17h – 22h30 (sex a dom até 23h30)',
+            whatsapp: '5586999986538',
+            instagram: 'sushiclubthe'
+          },
+          {
+            nome: 'Anisan Express',
+            desc: 'Culinária japonesa na praça de alimentação do Teresina Shopping.',
+            bairro: 'Noivos',
+            endereco: 'Av. Raul Lopes, 1000 - Teresina Shopping',
+            nota: '5,0 (9)',
+            horario: 'Todos os dias 10h – 22h',
+            whatsapp: '5586981051982',
+            instagram: 'anisanexpress',
+            tag: 'No Teresina Shopping'
+          }
         ]
       }
     ]

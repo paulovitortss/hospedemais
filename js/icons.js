@@ -54,6 +54,7 @@
     eye: s('<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="3"/>'),
 
     // Meta
+    star: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 3 2.6 5.6 6.1.8-4.5 4.2 1.2 6L12 16.8 6.6 19.6l1.2-6L3.3 9.4l6.1-.8L12 3Z"/></svg>',
     pin: s('<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/>'),
     walk: s('<circle cx="13" cy="4.5" r="1.8"/><path d="m7 21 3-7 2.5 2V21"/><path d="M9 11.5 10.5 8l3 1 2 3.5 3 1"/><path d="M10.5 8 7 9.5 5.5 13"/>'),
     clock: s('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'),
@@ -68,7 +69,7 @@
   /* Logo oficial do hotel (assets/logo.png, monograma creme com fundo transparente) */
   function logo(opts = {}) {
     const reveal = opts.reveal ? ' logo--reveal' : '';
-    return `<span class="logo${reveal}"><img src="assets/logo.png?v=5" alt="Teresina Hotel" decoding="async"></span>`;
+    return `<span class="logo${reveal}"><img src="assets/logo.png?v=6" alt="Teresina Hotel" decoding="async"></span>`;
   }
 
   window.ICONS = ICONS;
